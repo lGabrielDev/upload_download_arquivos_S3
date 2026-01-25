@@ -5,3 +5,8 @@ services:
     container_name: upload_download_container
     ports:
       - "8080:8080"
+    environment:
+      compose_aws_access_key: ${envfile_aws_access_key}
+      compose_aws_secret_access_key: ${envfile_aws_secret_access_key}
+      compose_region: ${envfile_region}
+      compose_bucket_name: ${envfile_bucket_name}
