@@ -9,5 +9,4 @@ public class DownloadUploadS3Application {
 	public static void main(String[] args) {
 		SpringApplication.run(DownloadUploadS3Application.class, args);
 	}
-
 }

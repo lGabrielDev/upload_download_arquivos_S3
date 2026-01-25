@@ -16,7 +16,6 @@ import br.com.lgabrieldev.download_upload_S3.models.DefaultFile;
 @RequestMapping("")
 public class S3Controller {
 
-     
      //attributes
      private S3Service s3Service;
 

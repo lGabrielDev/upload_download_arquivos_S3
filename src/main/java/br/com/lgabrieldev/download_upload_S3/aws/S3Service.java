@@ -59,7 +59,7 @@ public class S3Service {
           ResponseInputStream<GetObjectResponse> s3Object = this.s3Client.getObject(getObjectRequest);
 
           DefaultFile defaultFile = this.fileConverter.convertGetObjectResponse(s3Object, fileName);
-          Path downloadPath = Paths.get("src/main/java/br/com/lgabrieldev/download_upload_S3/downloads"); //ALTERAR ISSO E COLCOAR NO PROPERTIES. ASISM O USUARIO QUE TIVER USANDO CONSEGUE PASSAR O CAMIHO COMPLETO DO CONTAINER...
+          Path downloadPath = Paths.get("downloads"); //ALTERAR ISSO E COLCOAR NO PROPERTIES. ASISM O USUARIO QUE TIVER USANDO CONSEGUE PASSAR O CAMIHO COMPLETO DO CONTAINER...
           Boolean fileAlreadyExists = fileRename.fileExists(defaultFile, downloadPath);
 
           if(fileAlreadyExists){
@@ -68,5 +68,4 @@ public class S3Service {
           this.fileHandling.createFile(defaultFile, downloadPath);
           return defaultFile;
      }
-
 }

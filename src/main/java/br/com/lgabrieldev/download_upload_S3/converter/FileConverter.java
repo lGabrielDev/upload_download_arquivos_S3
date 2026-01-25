@@ -9,8 +9,4 @@ public interface FileConverter {
      
      public abstract DefaultFile convertMultiPartFile(MultipartFile file);
      public abstract DefaultFile convertGetObjectResponse( ResponseInputStream<GetObjectResponse> file, String fileName);
-     
-
-
-     
 }

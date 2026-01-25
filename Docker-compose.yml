@@ -1,0 +1,7 @@
+services:
+  upload_download_service:
+    build: .
+    image: upload_download_image
+    container_name: upload_download_container
+    ports:
+      - "8080:8080"

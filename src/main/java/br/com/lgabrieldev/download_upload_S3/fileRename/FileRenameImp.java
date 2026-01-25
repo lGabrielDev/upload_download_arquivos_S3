@@ -1,22 +1,22 @@
 package br.com.lgabrieldev.download_upload_S3.fileRename;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.springframework.stereotype.Component;
 import br.com.lgabrieldev.download_upload_S3.error.exceptions.DirectoryNotFoundException;
 import br.com.lgabrieldev.download_upload_S3.models.DefaultFile;
 
-
 @Component
 public class FileRenameImp implements FileRename{
-
 
      @Override
      public Boolean fileExists(DefaultFile defaultFile, Path downloadPath){
           if( !(Files.exists(downloadPath)) ){
                throw new DirectoryNotFoundException(String.format("directory '%s' not found.... Check the path. ", downloadPath));
           }
-          return true;
+          File downloadedFile = new File(downloadPath + "/" + defaultFile.getFileName());
+          return downloadedFile.exists();
      }
      
      @Override
