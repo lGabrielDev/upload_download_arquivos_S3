@@ -40,12 +40,20 @@ public class S3Service {
      public String upload(MultipartFile file){
           DefaultFile defaultFile = fileConverter.convertMultiPartFile(file);
 
+          
           PutObjectRequest request = PutObjectRequest.builder()
                .bucket(this.bucketName)
                .key(defaultFile.getFileName())
                .contentType(defaultFile.getFileContentType())
                .build();
           this.s3Client.putObject(request, RequestBody.fromBytes(defaultFile.getFileData()));
+          
+          //----------------> ssalvamos apena a referencia no BANCO ALTERARRRRRR DEPOISSSSSSSSS <----------------
+          //----------------> ssalvamos apena a referencia no BANCO ALTERARRRRRR DEPOISSSSSSSSS <----------------
+          //----------------> ssalvamos apena a referencia no BANCO ALTERARRRRRR DEPOISSSSSSSSS <----------------
+          //----------------> ssalvamos apena a referencia no BANCO ALTERARRRRRR DEPOISSSSSSSSS <----------------
+
+          
           return String.format("File '%s' has been successfully uploaded to bucket '%s'.", defaultFile.getFileName(), bucketName);
      }
      
