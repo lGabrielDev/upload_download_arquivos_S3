@@ -23,4 +23,5 @@ RUN mkdir downloads
 EXPOSE 8080
 
 #  Comando para rodar a aplicação
-ENTRYPOINT ["java", "-jar", "download_upload_S3.jar"]
+#ENTRYPOINT ["java", "-jar", "download_upload_S3.jar"]
+ENTRYPOINT ["java", "-jar", "download_upload_S3.jar", "--spring.profiles.active=dockerizado"]
