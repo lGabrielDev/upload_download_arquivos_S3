@@ -13,7 +13,12 @@ public class FileRenameImp implements FileRename{
      @Override
      public Boolean fileExists(DefaultFile defaultFile, Path downloadPath){
           if( !(Files.exists(downloadPath)) ){
-               throw new DirectoryNotFoundException(String.format("directory '%s' not found.... Check the path. ", downloadPath));
+               try{
+                    Files.createDirectory(downloadPath);
+               }
+               catch(Exception e){
+                    throw new DirectoryNotFoundException(String.format("directory '%s' not found.... Check the path. ", downloadPath));
+               }
           }
           File downloadedFile = new File(downloadPath + "/" + defaultFile.getFileName());
           return downloadedFile.exists();

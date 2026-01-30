@@ -1,12 +1,27 @@
 services:
-  upload_download_service:
-    build: .
-    image: upload_download_image
-    container_name: upload_download_container
-    ports:
-      - "8080:8080"
-    environment:
-      compose_aws_access_key: ${envfile_aws_access_key}
-      compose_aws_secret_access_key: ${envfile_aws_secret_access_key}
-      compose_region: ${envfile_region}
-      compose_bucket_name: ${envfile_bucket_name}
+     upload_download_service:
+          build: .
+          image: upload_download_image
+          container_name: upload_download_container
+          ports:
+               - "8080:8080"
+          environment:
+               #aws info
+               compose_aws_access_key: ${envfile_aws_access_key}
+               compose_aws_secret_access_key: ${envfile_aws_secret_access_key}
+               compose_region: ${envfile_region}
+               compose_bucket_name: ${envfile_bucket_name}
+               #postgres
+               compose_postgres_url: ${envfile_postgres_url}
+               compose_postgres_username: ${envfile_postgres_username}
+               compose_postgres_password: ${envfile_postgres_password}
+
+     postgres_service:
+          image: postgres:15
+          container_name: postgres_container
+          environment:
+               POSTGRES_USER: ${envfile_postgres_username}
+               POSTGRES_PASSWORD: ${envfile_postgres_password}
+               POSTGRES_DB: ${envfile_postgres_db}
+          ports:
+               - "5432:5432"
