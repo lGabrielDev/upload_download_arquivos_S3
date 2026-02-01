@@ -9,7 +9,7 @@
 <div align="left">
     <img src="https://img.shields.io/badge/license-MIT-yellow" alt="badge icon"></img>
     <img src="https://img.shields.io/badge/version-1.0-green" alt="badge icon"></img>
-    <img src="https://img.shields.io/badge/repo size-32,5 MB KB-orange" alt="badge icon"></img>
+    <img src="https://img.shields.io/badge/repo size-64,0 MB KB-orange" alt="badge icon"></img>
 </div>
 
 <br>
@@ -17,17 +17,20 @@
 <!-- About -->
 ## <img src="https://cdn2.iconfinder.com/data/icons/flat-pack-1/64/Computer-512.png" alt="todo list image icon" width="40px" align="center"> Sobre o Projeto
 
-Este sistema foi criado para enviar (upload) e baixar (download) arquivos no serviço Amazon S3 (AWS)
+Este sistema foi desenvolvido para fazer o upload e download de arquivos integrando os principais serviços da AWS. O objetivo foi aplicar na prática uma arquitetura de nuvem real, garantindo a comunicação entre EC2, S3 e RDS.
 
 
-O que o sistema faz:
+### Como funciona o fluxo:
 
-- Upload: Salva seus arquivos com segurança na nuvem da Amazon.
+1. Entrada (EC2): O arquivo é recebido via endpoint em uma aplicação hospedada na EC2
 
-- Download: Busca o arquivo na nuvem e o salva automaticamente em uma pasta dentro do container
+2. Storage (S3): O arquivo é enviado e armazenado em um Bucket S3.
 
-- Tratamento de Exceções: O sistema identifica e avisa se algo estiver errado.
+3. Persistência (RDS): Os metadados do arquivo (nome, nome do bucket, data de envio) são registrados em um banco de dados RDS.
 
+<br>
+
+💡 Todas as informações sensíveis, credenciais AWS e dados de conexão com o banco foram preservadas e não estão expostas no repositório, utilizando variáveis de ambiente para proteção do sistema.
 
 <hr>
 <br>
@@ -62,15 +65,14 @@ Todas as exceções foram personalizadas para um melhor entendimento do usuário
 <br>
 
 <!-- Technologies -->
-## <img src="https://cdn4.iconfinder.com/data/icons/general-office/91/General_Office_48-256.png" alt="todo list image icon" width="40px" align="center"> Tecnologias
+## <img src="https://cdn4.iconfinder.com/data/icons/general-office/91/General_Office_48-256.png" alt="todo list image icon" width="40px" align="center"> Tecnologias e Dependências 
 
 - Java 17
-- Spring Boot 4.0.2
-- Spring Web
-- Spring Boot DevTools
-- lombok
-- Docker 27.0.3
-- Amazon S3 (AWS SDK)
+- Spring Boot 3.4.2 (Web, DevTools, Data JPA)
+- Serviços AWS (EC2, S3, RDS) 
+- Docker
+- PostgreSQL
+- Lombok
 
 
 <hr>
@@ -81,55 +83,53 @@ Todas as exceções foram personalizadas para um melhor entendimento do usuário
 
 | Método Http | URI | Descrição | Status Code esperado |                  
 | :---:       | :--- |  :---    | :---:                |
-| POST   | `http://localhost:8080/upload`     |         Envio de arquivo para o Bucket S3      | 200 |
-| GET     | `http://localhost:8080/download/{arquivo_tal}`      |         Busca no S3 e salva na pasta do container            |  200 |
+| POST   | `http://enderecoEC2:8080/upload`     |         Envio de arquivo para o Bucket S3 + Registro de metadados no RDS      | 200 |
+| GET     | `http://enderecoEC2:8080/download/{arquivo_tal}`      |         Busca no S3 e salva na instancia EC2          |  200 |
 
 <hr>
 <br>
 
 <!-- Build and run -->
-## <img src="https://cdn3.iconfinder.com/data/icons/start-up-4/44/rocket-256.png" alt="todo list image icon" width="40px" align="center"> Rodando a aplicação
+## <img src="https://cdn3.iconfinder.com/data/icons/start-up-4/44/rocket-256.png" alt="todo list image icon" width="40px" align="center"> Rodando
 
-### Requisitos
-- [git](https://git-scm.com/downloads)
-- [Docker](https://docs.docker.com/desktop/wsl/)
+Considerando que todo o ambiente AWS (VPC, Subnets, Route Tables e Security Groups) já está devidamente configurado:
 
 <br>
 
-### Passo a passo
-
-1. Clone esse repositório
-    ```bash
-    git clone https://github.com/lGabrielDev/upload_download_arquivos_S3
-    ```
-<br>
-
-2. Vá ao diretorio
+1. Gerar o artefato (.jar) local
 
      ```bash
+     git clone https://github.com/lGabrielDev/upload_download_arquivos_S3
      cd upload_download_arquivos_S3
-     ```
+     mvn clean package -Dmaven.test.skip
+     ````
 
 <br>
 
-3. Configure as credenciais da AWS no seu arquivo .env
-
-    <img alt="environment variables image example" src="./readme_imgs/credentials.png" width="350px">
-
-<br>
-
-4. Suba o container
+2. Transfira o arquivo .jar local pra a instancia EC2
 
      ```bash
-     docker compose up --build;
+     # Conseguimos acessar a instancia atraves da SSH key
+     scp -i ~/sua-chave.pem target/seu-projeto.jar ubuntu@endereco_IP_EC2:/home/ubuntu
      ```
 
 <br>
 
-5. O serviço estará disponível em: `http://localhost:8080`
+3. Prepare a instancia EC2 para executar o .jar
 
-<hr>
+     ```bash
+     #acessando a instância
+     ssh -i "AWS_SSH_key" ubuntu@endereco_IP_EC2 
+
+     #dentro da instancia
+     sudo apt-get update
+     sudo apt-get install openjdk-17-jdk -y
+     ```
+
+     ⚠️ Para que a integração funcione, a instância EC2 deve possuir uma IAM Role com permissão de acesso ao S3.
+
 <br>
+
 
 <!-- Credits -->
 <h2>
@@ -144,8 +144,6 @@ Todas as exceções foram personalizadas para um melhor entendimento do usuário
 - [storyset](https://storyset.com/)
 - [vecteezy](https://www.vecteezy.com)
 - [imgix](https://www.imgix.com/)
-
-     <br>
 
      <span>Thanks!</span>
 
