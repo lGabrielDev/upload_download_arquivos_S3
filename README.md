@@ -125,6 +125,11 @@ Considerando que todo o ambiente AWS (VPC, Subnets, Route Tables e Security Grou
      sudo apt-get update
      sudo apt-get install openjdk-17-jdk -y
 
+     # Exportando variáveis de ambiente do banco
+     export ENV_VAR_DATABASE_URL=jdbc:postgresql://seu-endpoint-rds:5432/nome_do_banco
+     export ENV_VAR_DATABASE_USERNAME=seu_usuario
+     export ENV_VAR_DATABASE_PASSWORD=sua_senha
+
      # Executando a aplicação com o profile específico
      java -jar download_upload_S3.jar --spring.profiles.active=devaws
      ```
