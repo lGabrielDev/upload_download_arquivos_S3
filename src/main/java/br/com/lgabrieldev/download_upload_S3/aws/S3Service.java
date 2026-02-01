@@ -41,9 +41,9 @@ public class S3Service {
 
      // *************************************** Upload ***************************************
      public String upload(MultipartFile file){
+   
           DefaultFile defaultFile = fileConverter.convertMultiPartFile(file);
 
-          
           PutObjectRequest request = PutObjectRequest.builder()
                .bucket(this.bucketName)
                .key(defaultFile.getFileName())
@@ -59,7 +59,6 @@ public class S3Service {
                     this.bucketName
                )
           );
-
           return String.format("File '%s' has been successfully uploaded to bucket '%s'.", defaultFile.getFileName(), bucketName);
      }
      

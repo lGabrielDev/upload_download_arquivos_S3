@@ -13,6 +13,21 @@ import software.amazon.awssdk.services.s3.S3Client;
 @Configuration
 public class S3Config {
 
+     @Profile({"dockerizado"})
+     @Bean
+     public S3Client generateS3Client(  @Value("${aws_access_key}") String accessKey, //o spring so vai procurar esses cara se o profile 'dev' tiver ativo
+                                                            @Value("${aws_secret_access_key}") String secretAcessKey,
+                                                            @Value("${aws_region}") String region){
+          return S3Client.builder()
+               .region(Region.of(region))
+               .credentialsProvider(
+                    StaticCredentialsProvider.create(
+                         AwsBasicCredentials.create(accessKey, secretAcessKey)
+                    )
+               )
+               .build();
+     }
+
      @Bean
      public S3Client generateS3ClientProducao(){ //esse @Value vai procurar sempre no profile que tiver ativo
           return S3Client.builder()

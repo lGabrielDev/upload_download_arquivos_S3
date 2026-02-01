@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
           return ResponseEntity.badRequest().body(dto);
      }
 
-     // ************************************* Credential exceptions *************************************
+     // ************************************* Credential exceptions (access key, secret access key and region) *************************************
      
      //access key and secret access key
      @ExceptionHandler(S3Exception.class)
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
           dto.setExceptionSourceMethod(firstStackTrace.getMethodName() + "()");
           return ResponseEntity.status(HttpStatus.FORBIDDEN).body(dto);
      }
-
+     
      //region wrong
      @ExceptionHandler(SdkClientException.class)
      public ResponseEntity<ExceptionDTO> regionWrongExceptionHandler(SdkClientException e){
@@ -76,7 +76,7 @@ public class GlobalExceptionHandler {
           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
      }
 
-     //bucket not found
+     // ************************************* bucket not found *************************************
      @ExceptionHandler(NoSuchBucketException.class)
      public ResponseEntity<ExceptionDTO> noSuchBucketExceptionHandler(NoSuchBucketException e){
           StackTraceElement[] stackTraces = e.getStackTrace();
@@ -90,7 +90,7 @@ public class GlobalExceptionHandler {
           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
      }
 
-     //s3 Object/file not found
+     // ************************************* s3 Object/file not found *************************************
      @ExceptionHandler(NoSuchKeyException.class)
      public ResponseEntity<ExceptionDTO> noSuchKeyExceptionHandler(NoSuchKeyException e, WebRequest request){
           StackTraceElement[] stackTraces = e.getStackTrace();
