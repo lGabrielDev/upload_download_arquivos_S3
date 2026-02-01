@@ -1,6 +1,6 @@
 <!-- title -->
 <h1 align="center">
-    <span>Upload e Download de arquivos no serviço S3 AWS</span>
+    <span>Upload e Download de arquivos AWS</span>
 </h1>
 
 <br>
@@ -110,7 +110,7 @@ Considerando que todo o ambiente AWS (VPC, Subnets, Route Tables e Security Grou
 
      ```bash
      # Conseguimos acessar a instancia atraves da SSH key
-     scp -i ~/sua-chave.pem target/seu-projeto.jar ubuntu@endereco_IP_EC2:/home/ubuntu
+     scp -i ~/sua-chave.pem target/download_upload_S3.jar ubuntu@endereco_IP_EC2:/home/ubuntu
      ```
 
 <br>
@@ -124,6 +124,9 @@ Considerando que todo o ambiente AWS (VPC, Subnets, Route Tables e Security Grou
      #dentro da instancia
      sudo apt-get update
      sudo apt-get install openjdk-17-jdk -y
+
+     # Executando a aplicação com o profile específico
+     java -jar download_upload_S3.jar --spring.profiles.active=devaws
      ```
 
      ⚠️ Para que a integração funcione, a instância EC2 deve possuir uma IAM Role com permissão de acesso ao S3.
