@@ -15,11 +15,10 @@
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
+          <license/>
+     </licenses>
+     <developers>
+		<developer/></developers>
 	<scm>
 		<connection/>
 		<developerConnection/>
